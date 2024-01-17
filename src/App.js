@@ -15,12 +15,11 @@ import Doses from './Components/Doses/Doses';
 function App() {
   return (
   <>
-    <NavBar/>
+    {/* <NavBar/> */}
     <Routes>
-      <Route path='' element={<About/>}>About</Route>
-      <Route path='about' element={<About/>}>About</Route>
       <Route path='login' element={<Login/>}>Login</Route>
       <Route path='signup' element={<SignUp/>}>SignUp</Route>
+      <Route path='about' element={<About/>}>About</Route>
       <Route path='profile' element={<Profile/>}></Route>
       <Route path='home' element={<Home/>}>Home</Route>
       <Route path='medications' element={<MedicationsList/>}>Medications</Route>

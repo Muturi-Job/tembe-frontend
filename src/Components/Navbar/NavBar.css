@@ -1,4 +1,19 @@
+
 .navbar-brand img{
-    height: 100px;
+    height: 70px;
     width: auto;
 }
+.toggler-image {
+    transform: rotate(01deg);
+    transition: transform 0.5s ease-in-out;
+    height: auto;
+    width: 40px;
+   
+    
+    }
+ .toggler-image:active {
+      transform: rotate(720deg);
+      outline: none;
+      border: none;
+    }
+
