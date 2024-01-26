@@ -1,6 +1,5 @@
 
-const Home = ({user}) => {
-    console.log(user)
+const Home = () => {
     return(
     <div>
         <p>Home Page</p>

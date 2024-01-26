@@ -9,14 +9,55 @@ const LogIn = ({ setUser}) => {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
     const [isLoading, setIsLoading] = useState(false);
+    const [unauthorized, setUnauthorized] = useState(false);
+    const [formErrors, setFormErrors] = useState({
+        email: '',
+        password: '',
+        passwordConfirm: '',
+    });
 
     const togglePasswordVisibility = () => {
         setShowPassword(prevShowPassword => !prevShowPassword)
     }
 
+    const validateForm = () => {
+        let valid = true;
+        const errors = {
+            email: '',
+            password: '',
+        };
+
+        if (!email.trim()) {
+            valid = false;
+            errors.email = "Email is required"
+        }
+
+        if (!password.trim()) {
+            valid = false;
+            errors.password = "Password is required"
+        }
+
+        setFormErrors(errors);
+        return valid;
+    };
+
+
+    const handleInputChange = (e) => {
+        const { name, value } = e.target;
+        setFormErrors((prevErrors) => ({
+            ...prevErrors,
+            [name]: '',
+        }));
+
+        if (name === 'email') setEmail(value);
+        else if (name === 'password') setPassword(value);
+    };
+
     const handleSubmit = (e) => {
         e.preventDefault();
         setIsLoading(true)
+
+        if(validateForm()){
         fetch('http://localhost:4000/login', {
             method: 'POST',
             headers: {
@@ -26,11 +67,12 @@ const LogIn = ({ setUser}) => {
         })
 
         .then((r) => {
-            console.log(r)
             setIsLoading(false);
             if (r.ok) {
-                console.log(r)
                 return r.json();
+            }
+            else if (r.status === 401) {
+                setUnauthorized(true)
             }
             else {
                 throw new Error("Login failed!");
@@ -38,15 +80,17 @@ const LogIn = ({ setUser}) => {
         })
 
         .then((data) => {
-            const {user, sessionId} = data;
-            setUser(user);
-            document.cookie = `session_id=${sessionId}; path=/`
+            const {user, token} = data;
+            localStorage.setItem('authToken', token)
+            setUser(user)
             navigate('/home')
         })
         .catch((error) => {
             console.log("Error:", error);
         });
     }
+    }
+
 
     return (
         <div className="page-background">
@@ -60,17 +104,25 @@ const LogIn = ({ setUser}) => {
                     <input 
                     type="email"
                     name="email"
-                    onChange={(e) => setEmail(e.target.value)}
+                    onChange={handleInputChange}
+                    className={formErrors.email ? 'error' : ''}
                     />
+                    {formErrors.email && <p className="error-message">{formErrors.email}</p>}
+
                     <br />
                     <label htmlFor="">Password</label>
                     <br />
                     <input 
                     type="password"
                     name="password"
-                    onChange={(e) => setPassword(e.target.value)}
+                    onChange={handleInputChange}
+                    className={formErrors.password ? 'error': ''}
                     />             
+                    {formErrors.email && <p className="error-message">{formErrors.password}</p>}
                     <br />
+                    {unauthorized && (
+                        <p className="error-message">Email and Password do not match</p>
+                    )}
                     <button 
                     className="log-in-button"
                     type="submit"
