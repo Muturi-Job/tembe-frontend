@@ -136,6 +136,7 @@ const LogIn = ({ setUser}) => {
                     <span className="or-text">
                         or
                     </span>
+                    <br />
                     <hr className="right-divider "/>
                    </div>
                 </div>
