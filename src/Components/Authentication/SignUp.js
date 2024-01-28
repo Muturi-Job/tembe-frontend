@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import './SignUp.css'
 import whiteLogo from '../../Tembe Icons/tembe_logo_white.png'
-import { useNavigate } from "react-router-dom"
+import { useNavigate, NavLink } from "react-router-dom"
 
 const SignUp = ({ setUser }) => {
     const [showPassword, setShowPassword] = useState(false);
@@ -94,13 +94,14 @@ const SignUp = ({ setUser }) => {
                     const { user, token } = data;
                     localStorage.setItem('authToken', token)
                     setUser(user);
-                    navigate('/home')
+                    navigate('/profile')
                 })
                 .catch((error) => {
                     console.log("Error:", error)
                 });
             } 
     };
+
 
     useEffect(() => {
         const timeout = setTimeout(() => {
@@ -169,10 +170,13 @@ const SignUp = ({ setUser }) => {
                         </span>
                         <hr className="right-divider " />
                     </div>
+                    <div className="alt-login">
+                        <p>Already have an account, <span className="log-in span" onClick={(() => navigate('/login'))}><NavLink>Log in</NavLink></span></p>
+                    </div>
                 </div>
             </div>
         </div>
     );
 };
 
-export default SignUp;
+export default SignUp;  

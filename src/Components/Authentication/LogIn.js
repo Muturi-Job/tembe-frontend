@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from "react";
 import './Login.css'
 import whiteLogo from '../../Tembe Icons/tembe_logo_white.png'
-import { useNavigate } from "react-router-dom";
+import { useNavigate , NavLink} from "react-router-dom";
 
 const LogIn = ({ setUser}) => {
     const [showPassword, setShowPassword] = useState(false);
@@ -139,6 +139,9 @@ const LogIn = ({ setUser}) => {
                     <br />
                     <hr className="right-divider "/>
                    </div>
+                   <div className="alt-login">
+                        <p>Don't have an account, <span className="log-in span" onClick={(() => navigate('/signup'))}><NavLink>Sign up</NavLink></span></p>
+                    </div>
                 </div>
             </div>
         </div>
